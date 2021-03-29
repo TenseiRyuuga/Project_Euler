@@ -8,7 +8,7 @@ public class Calculator {
 	public BigInteger totalForTheNumberBelowAndMultipleOfs(BigInteger maxNumber, ArrayList<BigInteger> multipleOfs) {
 		// the total of all numbers found
 		Number total = new Number();
-		// the counter
+		// the counter we start at 1 because 0 can not be divided or give a useful addition to the total
 		Number number = new Number();
 		number.setNumber(BigInteger.ONE);
 		
