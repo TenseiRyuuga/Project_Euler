@@ -8,20 +8,6 @@ public class Calculator {
 
 	}
 
-	private int quickCalc(int number) {
-		int result = number - 1 + quickCalc2(number, 1);
-		return result;
-	}
-
-	private int quickCalc2(int number, int i) {
-		i += 2;
-		if (number - i > 0) {
-			return number - (i) + quickCalc2(number, i);
-		} else {
-			return number - i;
-		}
-	}
-
 	private int printSums(int number) {
 		int numberOfSums = 0;
 
