@@ -2,41 +2,23 @@ package main;
 
 public class Calculator {
 
-	public int CalculateTheAmountOfWrittenSumsWithAtLeast2PositiveIntegers(int number) {
-		printSums(number);
-		return quickCalc(number);
+	private int numberOfSums = 0;
 
+	public int CalculateTheAmountOfWrittenSumsWithAtLeast2PositiveIntegers(int number) {
+		return printSums(number);
 	}
 
-	private int printSums(int number) {
-		int numberOfSums = 0;
+	private int printSums(int startNumber) {
+		numberOfSums = 0;
 
-		if (number > 1) {
-			// keep substracting until we have only 1 left(which will create the sum with
-			// only 1's
-			for (int i = 1; (number - i) > 0; i++) {
+		if (startNumber > 1) {
+//			 keep substracting until we have only 1 left(which will create the sum with
+//			 only 1's
+			for (int i = 0; (startNumber - i) > 0; i++) {
 				// clear the stringbuilder since we're making a new sum
 				StringBuilder sum = new StringBuilder();
-				if ((number - i) >= i) {
-					// since number - i is bigger than i we know there isn't a duplicate yet and so
-					// we can print and add this sum to the counter
-					numberOfSums++;
-					sum.append("" + (number - i) + "+" + i);
-					System.out.println(sum);
-				} else {
-					// in case i is bigger than number - i we'll have to downsize i before adding it
-					// to avoid duplicates(a sum that looks different but is just a rearrangement
-					// of the numbers)
-					sum.append("" + (number - i));
-				}
-
-				if (i > 1) {
-					StringBuilder subSum = new StringBuilder();
-					subSum.append("" + (number - i));
-					appendSubSum(i, subSum, number - i);
-					numberOfSums++;
-					System.out.println(subSum);
-				}
+				sum.append("" + (startNumber - i));
+				appendSubSum(i, sum, startNumber - i);
 			}
 		}
 		return numberOfSums;
@@ -44,22 +26,39 @@ public class Calculator {
 
 	private void appendSubSum(int number, StringBuilder sum, int parentNumber) {
 		int one = 1;
-		if ((number - one) >= one && parentNumber >= (number - one)) {
-			sum.append("+" + (number - one));
-			parentNumber = (number - one);
-			number = number - one;
-		} 
-		else if ((number - one) >= one && parentNumber < (number - one)) {
-			sum.append("+" + (parentNumber));
-			number = number - parentNumber;
+
+		// check if the number given is bigger than 0 because it makes no sense to add
+		// +0
+		if (number > 0) {
+			String startSum = sum.toString();
+
+			// then we print the sum as is unless the number given is bigger than it's
+			// parent
+			if (parentNumber >= number) {
+				numberOfSums++;
+				StringBuilder sum1 = new StringBuilder(sum);
+				sum1.append("+" + (number));
+				System.out.println(sum1);
+				
+				if (number > one) {
+					StringBuilder sum2 = new StringBuilder(sum);
+					int loweredNumber = (number - one);
+					sum2.append("+" + loweredNumber);
+					appendSubSum((number - loweredNumber), sum2, loweredNumber);
+				}
+			}
+			else {
+				StringBuilder sum3 = new StringBuilder(sum);
+				sum3.append("+" + (parentNumber));
+				appendSubSum((number - parentNumber), sum3, parentNumber);
+				
+				if(parentNumber > one) {
+					StringBuilder sum4 = new StringBuilder(sum);
+					int loweredParent = (parentNumber - one);
+					sum4.append("+" + loweredParent);
+					appendSubSum(number - loweredParent, sum4, loweredParent);
+				}
+			}
 		}
-		
-		if (number> one) {
-			appendSubSum(number, sum, parentNumber);
-		}
-		else if (number == one){
-			sum.append("+" + one);
-		}
-		
 	}
 }
