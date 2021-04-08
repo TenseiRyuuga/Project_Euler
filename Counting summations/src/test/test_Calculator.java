@@ -18,6 +18,11 @@ class test_Calculator {
 		test_Caslculator(7, 12);
 	}
 	
+	@Test
+	void test3() {
+		test_Caslculator(100, 190569291);
+	}
+	
 	private void test_Caslculator(int number, int expected) {
 		Calculator calculator = new Calculator();
 		int result = calculator.CalculateTheAmountOfWrittenSumsWithAtLeast2PositiveIntegers(number);
